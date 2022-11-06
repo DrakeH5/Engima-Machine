@@ -3,10 +3,13 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math/rand"
 	"os"
 )
 
 func main() {
+	rotors := generateRotors()
+	fmt.Println(rotors)
 	var message string
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Input:")
@@ -28,4 +31,51 @@ func scrambler(inputedLetter string) string {
 	} else {
 		return inputedLetter
 	}
+}
+
+func generateRotors() interface{} {
+	rotors := [3]map[interface{}]interface{}{}
+	letters := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+	for j := 0; j < 3; j++ {
+		unusedLetters := []string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+		rotor := map[interface{}]interface{}{
+			"a": "",
+			"b": " ",
+			"c": " ",
+			"d": " ",
+			"e": " ",
+			"f": " ",
+			"g": " ",
+			"h": " ",
+			"i": " ",
+			"j": " ",
+			"k": " ",
+			"l": " ",
+			"m": " ",
+			"n": " ",
+			"o": " ",
+			"p": " ",
+			"q": " ",
+			"r": " ",
+			"s": " ",
+			"t": " ",
+			"u": " ",
+			"v": " ",
+			"w": " ",
+			"x": " ",
+			"y": " ",
+			"z": " ",
+		}
+		for i := 0; i < 26; i++ {
+			var randNmb int = rand.Intn(len(unusedLetters))
+			rotor[letters[i]] = unusedLetters[randNmb]
+			unusedLetters = RemoveIndex(unusedLetters[:], randNmb)
+		}
+		rotors[j] = rotor
+	}
+	return rotors
+}
+
+func RemoveIndex(s []string, index int) []string {
+	return append(s[:index], s[index+1:]...)
 }
