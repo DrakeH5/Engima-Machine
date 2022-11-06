@@ -8,8 +8,7 @@ import (
 )
 
 func main() {
-	rotors := generateRotors()
-	fmt.Println(rotors)
+	var rotors [3]map[interface{}]interface{} = generateRotors()
 	var message string
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Input:")
@@ -18,6 +17,7 @@ func main() {
 	for i := 0; i < len(input); i++ {
 		message += scrambler(string(input[i]))
 	}
+	message = goThroughRotors(rotors, message)
 	fmt.Println(message)
 }
 
@@ -33,7 +33,7 @@ func scrambler(inputedLetter string) string {
 	}
 }
 
-func generateRotors() interface{} {
+func generateRotors() [3]map[interface{}]interface{} {
 	rotors := [3]map[interface{}]interface{}{}
 	letters := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
 	for j := 0; j < 3; j++ {
@@ -78,4 +78,19 @@ func generateRotors() interface{} {
 
 func RemoveIndex(s []string, index int) []string {
 	return append(s[:index], s[index+1:]...)
+}
+
+func goThroughRotors(rotors [3]map[interface{}]interface{}, input string) string {
+	for i := 0; i < 3; i++ {
+		input = rotorConversions(rotors[i], input)
+	}
+	return input
+}
+
+func rotorConversions(rotor map[interface{}]interface{}, input string) string {
+	var output string
+	for i := 0; i < len(input); i++ {
+		output += (rotor[string(input[i])]).(string)
+	}
+	return output
 }
