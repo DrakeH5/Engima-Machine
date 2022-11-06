@@ -81,16 +81,17 @@ func RemoveIndex(s []string, index int) []string {
 }
 
 func goThroughRotors(rotors [3]map[interface{}]interface{}, input string) string {
-	for i := 0; i < 3; i++ {
-		input = rotorConversions(rotors[i], input)
-	}
-	return input
-}
-
-func rotorConversions(rotor map[interface{}]interface{}, input string) string {
 	var output string
 	for i := 0; i < len(input); i++ {
-		output += (rotor[string(input[i])]).(string)
+		output += rotorConversions(rotors, string(input[i]))
+	}
+	return output
+}
+
+func rotorConversions(rotors [3]map[interface{}]interface{}, input string) string {
+	var output string
+	for i := 0; i < 3; i++ {
+		output = rotors[i][input].(string)
 	}
 	return output
 }
