@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"time"
 )
 
 var rotors [3]map[interface{}]interface{} = generateRotors()
@@ -35,6 +36,7 @@ func scrambler(inputedLetter string) string {
 }
 
 func generateRotors() [3]map[interface{}]interface{} {
+	rand.Seed(time.Now().UnixNano())
 	rotors := [3]map[interface{}]interface{}{}
 	letters := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
 	for j := 0; j < 3; j++ {
@@ -74,6 +76,7 @@ func generateRotors() [3]map[interface{}]interface{} {
 		}
 		rotors[j] = rotor
 	}
+	fmt.Println(rotors)
 	return rotors
 }
 
