@@ -76,7 +76,6 @@ func generateRotors() [3]map[interface{}]interface{} {
 		}
 		rotors[j] = rotor
 	}
-	fmt.Println(rotors)
 	return rotors
 }
 
