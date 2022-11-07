@@ -7,8 +7,9 @@ import (
 	"os"
 )
 
+var rotors [3]map[interface{}]interface{} = generateRotors()
+
 func main() {
-	var rotors [3]map[interface{}]interface{} = generateRotors()
 	var message string
 	scanner := bufio.NewScanner(os.Stdin)
 	fmt.Println("Input:")
@@ -17,7 +18,7 @@ func main() {
 	for i := 0; i < len(input); i++ {
 		message += scrambler(string(input[i]))
 	}
-	message = goThroughRotors(rotors, message)
+	message = goThroughRotors(message)
 	fmt.Println(message)
 }
 
@@ -67,7 +68,7 @@ func generateRotors() [3]map[interface{}]interface{} {
 			"z": " ",
 		}
 		for i := 0; i < 26; i++ {
-			var randNmb int = rand.Intn(len(unusedLetters))
+			var randNmb int = rand.Intn(len(unusedLetters)-0) + 0
 			rotor[letters[i]] = unusedLetters[randNmb]
 			unusedLetters = RemoveIndex(unusedLetters[:], randNmb)
 		}
@@ -119,25 +120,54 @@ func generateReflector() map[interface{}]interface{} {
 	return reflector
 }
 
-func goThroughRotors(rotors [3]map[interface{}]interface{}, input string) string {
+func goThroughRotors(input string) string {
 	var output string
 	var reflector map[interface{}]interface{} = generateReflector()
 	for i := 0; i < len(input); i++ {
-		output += rotorConversions(rotors, string(input[i]), reflector)
+		output += rotorConversions(string(input[i]), reflector)
 	}
 	return output
 }
 
-func rotorConversions(rotors [3]map[interface{}]interface{}, input string, reflector map[interface{}]interface{}) string {
-	var output string
+func rotorConversions(input string, reflector map[interface{}]interface{}) string {
+	var output string = input
 	for i := 0; i < 3; i++ {
-		output = rotors[i][input].(string)
+		output = rotors[i][output].(string)
+		rotateRotors()
 		if i == 2 {
-			output = reflector[input].(string)
+			output = reflector[output].(string)
+			rotateRotors()
 			for i := 2; i > -1; i-- {
-				output = rotors[i][input].(string)
+				output = rotors[i][output].(string)
+				rotateRotors()
 			}
 		}
 	}
 	return output
+}
+
+var nbmOfRotations int = 0
+
+func rotateRotors() {
+	letters := [26]string{"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"}
+	last := rotors[0]["z"]
+	for i := 25; i > 0; i-- {
+		rotors[0][letters[i]] = rotors[0][letters[i-1]]
+	}
+	rotors[0]["a"] = last
+	if nbmOfRotations%26 == 0 {
+		last1 := rotors[1]["z"]
+		for i := 25; i > 0; i-- {
+			rotors[1][letters[i]] = rotors[1][letters[i-1]]
+		}
+		rotors[1]["Z"] = last1
+	}
+	if nbmOfRotations%52 == 0 {
+		last2 := rotors[2]["z"]
+		for i := 25; i > 0; i-- {
+			rotors[2][letters[i]] = rotors[2][letters[i-1]]
+		}
+		rotors[2]["a"] = last2
+	}
+	nbmOfRotations++
 }
