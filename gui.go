@@ -60,14 +60,23 @@ type Game struct {
 
 func (g *Game) Update() error {
 	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
+	if len(g.keys) == 0 {
+		keyReleased = true
+	}
 	return nil
 }
+
+var keyReleased bool
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
 			text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
 			for _, j := range g.keys {
+				if keyReleased == true {
+					//SEND LETTER TO ENIGMA
+					keyReleased = false
+				}
 				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
 					for k := 0; k < 10000; k++ {
@@ -77,7 +86,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			}
 		}
 	}
-
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
