@@ -20,7 +20,11 @@ func main() {
 		message += scrambler(string(input[i]))
 	}
 	message = goThroughRotors(message)
-	fmt.Println(message)
+	var output string
+	for i := 0; i < len(message); i++ {
+		output += scrambler(string(input[i]))
+	}
+	fmt.Println(output)
 }
 
 func scrambler(inputedLetter string) string {
