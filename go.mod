@@ -3,7 +3,6 @@ module github.com/DrakeH5/Enigma-Machine
 go 1.18
 
 require (
-	github.com/hajimehoshi/ebiten v1.12.12
 	github.com/hajimehoshi/ebiten/v2 v2.4.11
 	golang.org/x/image v0.1.0
 )

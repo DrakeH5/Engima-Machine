@@ -79,9 +79,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				}
 				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
-					for k := 0; k < 10000; k++ {
-						text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xff00})
-					}
+					text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.RGBA{255, 255, 0, 0xff})
 				}
 			}
 		}
