@@ -22,7 +22,7 @@ func main() {
 	message = goThroughRotors(message)
 	var output string
 	for i := 0; i < len(message); i++ {
-		output += scrambler(string(input[i]))
+		output += scrambler(string(message[i]))
 	}
 	fmt.Println(output)
 }
