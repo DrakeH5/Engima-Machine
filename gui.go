@@ -3,13 +3,18 @@ package main
 import (
 	"image/color"
 	"log"
+	"strings"
+
+	"github.com/hajimehoshi/ebiten/v2"
 
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 
-	"github.com/hajimehoshi/ebiten/v2"
+	//"github.com/hajimehoshi/ebiten/v2"
 	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	"github.com/hajimehoshi/ebiten/v2/text"
+
+	"github.com/hajimehoshi/ebiten/v2/inpututil"
 )
 
 const (
@@ -49,16 +54,27 @@ func init() {
 	}
 }
 
-type Game struct{}
+type Game struct {
+	keys []ebiten.Key
+}
 
 func (g *Game) Update() error {
+	g.keys = inpututil.AppendPressedKeys(g.keys[:0])
 	return nil
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
-			text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.White)
+			text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
+			for _, j := range g.keys {
+				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
+					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
+					for k := 0; k < 10000; k++ {
+						text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xff00})
+					}
+				}
+			}
 		}
 	}
 
