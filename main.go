@@ -130,7 +130,11 @@ func goThroughRotors(input string) string {
 	var output string
 	var reflector map[interface{}]interface{} = generateReflector()
 	for i := 0; i < len(input); i++ {
-		output += rotorConversions(string(input[i]), reflector)
+		if string(input[i]) != " " {
+			output += rotorConversions(string(input[i]), reflector)
+		} else {
+			output += " "
+		}
 	}
 	return output
 }
