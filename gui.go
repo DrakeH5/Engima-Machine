@@ -71,7 +71,6 @@ var keyReleased bool
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
-			text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
 			for _, j := range g.keys {
 				if keyReleased == true {
 					//SEND LETTER TO ENIGMA
@@ -79,8 +78,13 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				}
 				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
-					text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.RGBA{255, 255, 0, 0xff})
+					text.Draw(screen, keys[i], mplusBigFont, i*25, 320, color.RGBA{255, 255, 0, 0xff})
+				} else {
+					text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
 				}
+			}
+			if len(g.keys) == 0 {
+				text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
 			}
 		}
 	}
