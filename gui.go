@@ -97,6 +97,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			var x int = i - int(math.Floor(float64(i/9)))*9
 			var xPos int = x * 75
 			text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+40*math.Floor(float64(yPos))), color.Gray16{0xffff})
+			for k := 0; k < len(plugBoardLetters); k++ {
+				if plugBoardLetters[k] == keys[i] {
+					q := int(math.Floor(float64(k / 2)))
+					r := uint8((q * 90) + 100)
+					g := uint8((q * 70) + 10)
+					b := uint8((q * 55))
+					text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+40*math.Floor(float64(yPos))), color.RGBA{r, g, b, 0xff})
+				}
+			}
 		}
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true {
 			xPos, yPos := ebiten.CursorPosition()
