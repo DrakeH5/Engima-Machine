@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	"log"
 	"math"
@@ -95,6 +96,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			var xPos int = x * 75
 			text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+30*math.Floor(float64(yPos))), color.Gray16{0xffff})
 		}
+		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true {
+			fmt.Println(ebiten.CursorPosition())
+		}
+		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
 	}
 }
 
