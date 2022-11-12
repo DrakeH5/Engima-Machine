@@ -3,6 +3,7 @@ package main
 import (
 	"image/color"
 	"log"
+	"math"
 	"strings"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -10,11 +11,12 @@ import (
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/opentype"
 
-	//"github.com/hajimehoshi/ebiten/v2"
+	//"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	"github.com/hajimehoshi/ebiten/v2/text"
 
 	"github.com/hajimehoshi/ebiten/v2/inpututil"
+	//"github.com/hajimehoshi/ebiten/v2/vector"
 )
 
 const (
@@ -78,14 +80,20 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				}
 				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
-					text.Draw(screen, keys[i], mplusBigFont, i*25, 320, color.RGBA{255, 255, 0, 0xff})
+					text.Draw(screen, keys[i], mplusBigFont, i*25, 310, color.RGBA{255, 255, 0, 0xff})
 				} else {
-					text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
+					text.Draw(screen, keys[i], mplusNormalFont, i*25, 310, color.Gray16{0xffff})
 				}
 			}
 			if len(g.keys) == 0 {
-				text.Draw(screen, keys[i], mplusNormalFont, i*25, 320, color.Gray16{0xffff})
+				text.Draw(screen, keys[i], mplusNormalFont, i*25, 310, color.Gray16{0xffff})
 			}
+		}
+		for i := 0; i < 26; i++ {
+			var yPos int = i / 9
+			var x int = i - int(math.Floor(float64(i/9)))*9
+			var xPos int = x * 75
+			text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+30*math.Floor(float64(yPos))), color.Gray16{0xffff})
 		}
 	}
 }
