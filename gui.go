@@ -71,6 +71,8 @@ func (g *Game) Update() error {
 
 var keyReleased bool
 
+var plugBoardLetters []string
+
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
@@ -101,7 +103,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			keyXCord := (int(xPos*9) / screenWidth)
 			keyYCord := (yPos / 40) - 9
 			keyPosInArray := (keyYCord * 9) + keyXCord
-			fmt.Println(keys[keyPosInArray])
+			plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
+			fmt.Println(plugBoardLetters)
 		}
 		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
 	}
