@@ -112,7 +112,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			keyXCord := (int(xPos*9) / screenWidth)
 			keyYCord := (yPos / 40) - 9
 			keyPosInArray := (keyYCord * 9) + keyXCord
-			plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
+			if keyPosInArray > 0 && keyPosInArray < len(keys) {
+				plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
+			}
 			fmt.Println(plugBoardLetters)
 		}
 		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
