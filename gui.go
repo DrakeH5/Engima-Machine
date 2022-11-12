@@ -94,10 +94,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			var yPos int = i / 9
 			var x int = i - int(math.Floor(float64(i/9)))*9
 			var xPos int = x * 75
-			text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+30*math.Floor(float64(yPos))), color.Gray16{0xffff})
+			text.Draw(screen, keys[i], mplusNormalFont, xPos, int(400+40*math.Floor(float64(yPos))), color.Gray16{0xffff})
 		}
 		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true {
-			fmt.Println(ebiten.CursorPosition())
+			xPos, yPos := ebiten.CursorPosition()
+			keyXCord := (int(xPos*9) / screenWidth)
+			keyYCord := (yPos / 40) - 9
+			keyPosInArray := (keyYCord * 9) + keyXCord
+			fmt.Println(keys[keyPosInArray])
 		}
 		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
 	}
