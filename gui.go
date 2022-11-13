@@ -137,13 +137,18 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			movingRotor = false
 		}
 
+		for i := 0; i < 3; i++ {
+			options := &ebiten.DrawImageOptions{}
+			options.GeoM.Translate(float64(i*160), 1)
+			screen.DrawImage(topbgImg, options)
+		}
+
 		if movingRotor == true {
 			mouseX, mouseY := ebiten.CursorPosition()
 			op.GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
 			oldMouseX = mouseX
 			oldMouseY = mouseY
 		}
-		screen.DrawImage(topbgImg, nil)
 		screen.DrawImage(rotorImg, op)
 	}
 }
