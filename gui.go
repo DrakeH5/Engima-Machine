@@ -185,6 +185,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				} else {
 					rotorInMotion = int(math.Floor(float64(mouseY/100))) + 3
 				}
+				rotorOptions[rotorInMotion] = &ebiten.DrawImageOptions{}
+				rotorOptions[rotorInMotion].GeoM.Scale(-0.50, 0.50)
+				rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX), float64(mouseY))
+				oldMouseX = mouseX
+				oldMouseY = mouseY
 			}
 		}
 		screen.DrawImage(rotorImg, rotorOptions[0])
