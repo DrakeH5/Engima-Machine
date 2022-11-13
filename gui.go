@@ -145,7 +145,14 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		if movingRotor == true {
 			mouseX, mouseY := ebiten.CursorPosition()
-			op.GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
+			if mouseY < 200 && mouseX < (3*160) {
+				op = &ebiten.DrawImageOptions{}
+				op.GeoM.Scale(-0.40, 0.40)
+				op.GeoM.Translate(float64((math.Floor(float64(mouseX/160)*160) + 105)), float64(10))
+				mouseX, mouseY = int((math.Floor(float64(mouseX/160)*160) + 105)), 10
+			} else {
+				op.GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
+			}
 			oldMouseX = mouseX
 			oldMouseY = mouseY
 		}
