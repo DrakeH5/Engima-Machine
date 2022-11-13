@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"image/color"
+	_ "image/png"
 	"log"
 	"math"
 	"strings"
@@ -13,6 +14,7 @@ import (
 	"golang.org/x/image/font/opentype"
 
 	//"github.com/hajimehoshi/ebiten/v2/ebitenutil"
+	"github.com/hajimehoshi/ebiten/v2/ebitenutil"
 	"github.com/hajimehoshi/ebiten/v2/examples/resources/fonts"
 	"github.com/hajimehoshi/ebiten/v2/text"
 
@@ -31,6 +33,8 @@ var (
 	mplusNormalFont font.Face
 	mplusBigFont    font.Face
 )
+
+var rotorImg *ebiten.Image
 
 func init() {
 	tt, err := opentype.Parse(fonts.MPlus1pRegular_ttf)
@@ -55,6 +59,8 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	rotorImg, _, err = ebitenutil.NewImageFromFile("rotors.png")
 }
 
 type Game struct {
@@ -118,6 +124,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			fmt.Println(plugBoardLetters)
 		}
 		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
+		op := &ebiten.DrawImageOptions{}
+		op.GeoM.Scale(-0.5, 0.5)
+		mouseX, mouseY := 150, 100
+		op.GeoM.Translate(float64(mouseX), float64(mouseY))
+		screen.DrawImage(rotorImg, op)
 	}
 }
 
