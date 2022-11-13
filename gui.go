@@ -97,6 +97,11 @@ var oldMouseY int
 
 var rotorInMotion int
 
+var rotorNbms = [5]string{"1", "2", "3", "4", "5"}
+
+var selectedRotor string
+var err error
+
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
@@ -177,12 +182,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					}
 					if clickedSlot == rotorInMotion {
 						movingRotor = false
+						rotorNbms[clickedSlot] = selectedRotor
 					} else {
 						rotorOptions[clickedSlot] = rotorOptions[rotorInMotion]
+						shortTermSelctedRotor := rotorNbms[clickedSlot]
+						rotorNbms[clickedSlot] = selectedRotor
+						selectedRotor = shortTermSelctedRotor
 						rotorOptions[rotorInMotion] = &ebiten.DrawImageOptions{}
 						rotorOptions[rotorInMotion].GeoM.Scale(-0.50, 0.50)
 						rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX), float64(mouseY))
-
 					}
 				}
 			} else {
@@ -204,6 +212,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX), float64(mouseY))
 				oldMouseX = mouseX
 				oldMouseY = mouseY
+				selectedRotor = rotorNbms[rotorInMotion]
 			}
 		}
 		screen.DrawImage(rotorImg, rotorOptions[0])
@@ -211,6 +220,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		screen.DrawImage(rotorImg, rotorOptions[2])
 		screen.DrawImage(rotorImg, rotorOptions[3])
 		screen.DrawImage(rotorImg, rotorOptions[4])
+
+		for i := 0; i < 5; i++ {
+			if i < 3 {
+				text.Draw(screen, rotorNbms[i], mplusNormalFont, (i*160)+150, 200, color.RGBA{10, 100, 10, 0xff})
+			} else {
+				text.Draw(screen, rotorNbms[i], mplusNormalFont, 550, (int(math.Floor(float64(i/4)))*100)+70, color.RGBA{100, 100, 10, 0xff})
+			}
+		}
+
 	}
 }
 
