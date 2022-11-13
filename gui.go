@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -135,10 +134,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			if keyPosInArray > 0 && keyPosInArray < len(keys) {
 				plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
 			}
-			fmt.Println(plugBoardLetters)
-			movingRotor = true
-		} else {
-			movingRotor = false
 		}
 
 		screen.DrawImage(reflectortopImg, nil)
@@ -156,23 +151,31 @@ func (g *Game) Draw(screen *ebiten.Image) {
 
 		if movingRotor == true {
 			mouseX, mouseY := ebiten.CursorPosition()
-			if mouseY < 200 {
-				if mouseX < (3*160)+25 {
-					op = &ebiten.DrawImageOptions{}
-					op.GeoM.Scale(-0.40, 0.40)
-					op.GeoM.Translate(float64((math.Floor(float64((mouseX-50)/160)*160) + 155)), float64(10))
-					mouseX, mouseY = int((math.Floor(float64((mouseX-50)/160)*160) + 155)), 10
-				} else {
-					op = &ebiten.DrawImageOptions{}
-					op.GeoM.Scale(-0.25, 0.25)
-					op.GeoM.Translate(float64((math.Floor(float64((mouseX-50)/160)*160) + 155)), math.Floor(float64(mouseY/100))*100)
-					mouseX, mouseY = int((math.Floor(float64((mouseX-50)/160)*160) + 155)), int(math.Floor(float64(mouseY/100))*100)
+			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true {
+				if mouseY < 200 {
+					if mouseX < (3*160)+25 {
+						op = &ebiten.DrawImageOptions{}
+						op.GeoM.Scale(-0.40, 0.40)
+						op.GeoM.Translate(float64((math.Floor(float64((mouseX-50)/160)*160) + 155)), float64(10))
+						oldMouseX, oldMouseY = int((math.Floor(float64((mouseX-50)/160)*160) + 155)), 10
+					} else {
+						op = &ebiten.DrawImageOptions{}
+						op.GeoM.Scale(-0.25, 0.25)
+						op.GeoM.Translate(float64((math.Floor(float64((mouseX-50)/160)*160) + 155)), math.Floor(float64(mouseY/100))*100)
+						oldMouseX, oldMouseY = int((math.Floor(float64((mouseX-50)/160)*160) + 155)), int(math.Floor(float64(mouseY/100))*100)
+					}
+					movingRotor = false
 				}
 			} else {
 				op.GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
+				oldMouseX = mouseX
+				oldMouseY = mouseY
 			}
-			oldMouseX = mouseX
-			oldMouseY = mouseY
+		} else {
+			mouseX, mouseY := ebiten.CursorPosition()
+			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true && mouseY < 200 && mouseX < screenWidth {
+				movingRotor = true
+			}
 		}
 		screen.DrawImage(rotorImg, op)
 	}
