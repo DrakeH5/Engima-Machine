@@ -66,6 +66,10 @@ func init() {
 	topbgImg, _, err = ebitenutil.NewImageFromFile("topbg.png")
 	reflectortopImg, _, err = ebitenutil.NewImageFromFile("reflectortop.png")
 	emptyRotorSlotImg, _, err = ebitenutil.NewImageFromFile("emptyrotorSlot.png")
+	for i := 0; i < 5; i++ {
+		rotorOptions[i].GeoM.Scale(-0.40-(math.Floor(float64(i/3))*-0.15), 0.40-(math.Floor(float64(i/3))*0.15))
+		rotorOptions[i].GeoM.Translate(float64((i*160)+150)-(math.Floor(float64(i/4))*160), float64(math.Floor(float64(i/4))*100))
+	}
 }
 
 type Game struct {
