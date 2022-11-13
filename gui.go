@@ -61,6 +61,7 @@ func init() {
 	}
 
 	rotorImg, _, err = ebitenutil.NewImageFromFile("rotors.png")
+	op.GeoM.Scale(-0.5, 0.5)
 }
 
 type Game struct {
@@ -78,6 +79,13 @@ func (g *Game) Update() error {
 var keyReleased bool
 
 var plugBoardLetters []string
+
+var movingRotor bool
+
+var op = &ebiten.DrawImageOptions{}
+
+var oldMouseX int
+var oldMouseY int
 
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
@@ -122,12 +130,17 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
 			}
 			fmt.Println(plugBoardLetters)
+			movingRotor = true
+		} else {
+			movingRotor = false
 		}
-		//vector.StrokeLine(screen, 100, 100, 300, 100, 1, color.RGBA{0xff, 0xff, 0xff, 0xff})
-		op := &ebiten.DrawImageOptions{}
-		op.GeoM.Scale(-0.5, 0.5)
-		mouseX, mouseY := 150, 100
-		op.GeoM.Translate(float64(mouseX), float64(mouseY))
+
+		if movingRotor == true {
+			mouseX, mouseY := ebiten.CursorPosition()
+			op.GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
+			oldMouseX = mouseX
+			oldMouseY = mouseY
+		}
 		screen.DrawImage(rotorImg, op)
 	}
 }
