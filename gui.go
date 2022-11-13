@@ -158,6 +158,12 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			mouseX, mouseY := ebiten.CursorPosition()
 			if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonLeft)) == true {
 				if mouseY < 200 {
+					var clickedSlot int
+					if mouseX < (3*160)+25 {
+						clickedSlot = int(math.Floor(float64(mouseX-50) / 160))
+					} else {
+						clickedSlot = int(math.Floor(float64(mouseY/100))) + 3
+					}
 					if mouseX < (3*160)+25 {
 						rotorOptions[rotorInMotion] = &ebiten.DrawImageOptions{}
 						rotorOptions[rotorInMotion].GeoM.Scale(-0.40, 0.40)
@@ -169,7 +175,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 						rotorOptions[rotorInMotion].GeoM.Translate(float64((math.Floor(float64((mouseX-50)/160)*160) + 155)), math.Floor(float64(mouseY/100))*100)
 						oldMouseX, oldMouseY = int((math.Floor(float64((mouseX-50)/160)*160) + 155)), int(math.Floor(float64(mouseY/100))*100)
 					}
-					movingRotor = false
+					if clickedSlot == rotorInMotion {
+						movingRotor = false
+					} else {
+						rotorOptions[clickedSlot] = rotorOptions[rotorInMotion]
+						rotorOptions[rotorInMotion] = &ebiten.DrawImageOptions{}
+						rotorOptions[rotorInMotion].GeoM.Scale(-0.50, 0.50)
+						rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX), float64(mouseY))
+
+					}
 				}
 			} else {
 				rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX-oldMouseX), float64(mouseY-oldMouseY))
