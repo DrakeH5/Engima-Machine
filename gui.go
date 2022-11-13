@@ -35,6 +35,7 @@ var (
 )
 
 var rotorImg *ebiten.Image
+var topbgImg *ebiten.Image
 
 func init() {
 	tt, err := opentype.Parse(fonts.MPlus1pRegular_ttf)
@@ -61,7 +62,8 @@ func init() {
 	}
 
 	rotorImg, _, err = ebitenutil.NewImageFromFile("rotors.png")
-	op.GeoM.Scale(-0.5, 0.5)
+	op.GeoM.Scale(-0.40, 0.40)
+	topbgImg, _, err = ebitenutil.NewImageFromFile("topbg.png")
 }
 
 type Game struct {
@@ -141,6 +143,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			oldMouseX = mouseX
 			oldMouseY = mouseY
 		}
+		screen.DrawImage(topbgImg, nil)
 		screen.DrawImage(rotorImg, op)
 	}
 }
