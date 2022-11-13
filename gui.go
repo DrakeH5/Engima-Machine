@@ -213,6 +213,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				oldMouseX = mouseX
 				oldMouseY = mouseY
 				selectedRotor = rotorNbms[rotorInMotion]
+				rotorNbms[rotorInMotion] = ""
 			}
 		}
 		screen.DrawImage(rotorImg, rotorOptions[0])
