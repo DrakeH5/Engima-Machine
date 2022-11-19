@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -102,6 +103,35 @@ var rotorNbms = [5]string{"1", "2", "3", "4", "5"}
 var selectedRotor string
 var err error
 
+var plugBoard = map[interface{}]interface{}{
+	"a": "",
+	"b": " ",
+	"c": " ",
+	"d": " ",
+	"e": " ",
+	"f": " ",
+	"g": " ",
+	"h": " ",
+	"i": " ",
+	"j": " ",
+	"k": " ",
+	"l": " ",
+	"m": " ",
+	"n": " ",
+	"o": " ",
+	"p": " ",
+	"q": " ",
+	"r": " ",
+	"s": " ",
+	"t": " ",
+	"u": " ",
+	"v": " ",
+	"w": " ",
+	"x": " ",
+	"y": " ",
+	"z": " ",
+}
+
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
@@ -143,6 +173,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			keyPosInArray := (keyYCord * 9) + keyXCord
 			if keyPosInArray > 0 && keyPosInArray < len(keys) {
 				plugBoardLetters = append(plugBoardLetters, keys[keyPosInArray])
+				if len(plugBoardLetters)%2 == 0 {
+					plugBoard[plugBoardLetters[len(plugBoardLetters)-1]] = plugBoardLetters[len(plugBoardLetters)-2]
+					plugBoard[plugBoardLetters[len(plugBoardLetters)-2]] = plugBoardLetters[len(plugBoardLetters)-1]
+					fmt.Println(plugBoard)
+				}
 			}
 		}
 
