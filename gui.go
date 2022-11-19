@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -180,7 +179,6 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				if len(plugBoardLetters)%2 == 0 {
 					plugBoard[plugBoardLetters[len(plugBoardLetters)-1]] = plugBoardLetters[len(plugBoardLetters)-2]
 					plugBoard[plugBoardLetters[len(plugBoardLetters)-2]] = plugBoardLetters[len(plugBoardLetters)-1]
-					fmt.Println(plugBoard)
 				}
 			}
 		}
