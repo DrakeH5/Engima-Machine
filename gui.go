@@ -143,7 +143,8 @@ func (g *Game) Draw(screen *ebiten.Image) {
 					//SEND LETTER TO ENIGMA
 					keyReleased = false
 				}
-				if ebiten.Key.String(j) == strings.ToUpper(keys[i]) {
+				encryptedKey := encrypt(strings.ToLower(ebiten.Key.String(j)))
+				if encryptedKey == keys[i] {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
 					text.Draw(screen, keys[i], mplusBigFont, i*25, 310, color.RGBA{255, 255, 0, 0xff})
 				} else {
@@ -282,4 +283,19 @@ func main() {
 	if err := ebiten.RunGame(&Game{}); err != nil {
 		log.Fatal(err)
 	}
+}
+
+func encrypt(key string) string {
+	var output string
+	output = plugBoardFunc(key)
+	return output
+}
+
+func plugBoardFunc(inputedLetter string) string {
+	scrambles := plugBoard
+	var output string = inputedLetter
+	if scrambles[inputedLetter] != " " {
+		output = scrambles[inputedLetter].(string)
+	}
+	return output
 }
