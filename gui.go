@@ -282,15 +282,15 @@ func (g *Game) Draw(screen *ebiten.Image) {
 				if xPos > 110 && xPos < 150 {
 					rightMouseClicked = true
 					movingRotorStartingPosSelected = 0
-					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+					movingRotorStartRotationInitialValue = 0
 				} else if xPos > 270 && xPos < 310 {
 					rightMouseClicked = true
 					movingRotorStartingPosSelected = 1
-					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+					movingRotorStartRotationInitialValue = 0
 				} else if xPos > 430 && xPos < 470 {
 					rightMouseClicked = true
 					movingRotorStartingPosSelected = 2
-					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+					movingRotorStartRotationInitialValue = 0
 				}
 			}
 		}
@@ -306,7 +306,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			if rotorsRotationAmounts[movingRotorStartingPosSelected] < 0 {
 				rotorsRotationAmounts[movingRotorStartingPosSelected] = 26 + rotorsRotationAmounts[movingRotorStartingPosSelected]
 			}
-			movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+			movingRotorStartRotationInitialValue = int(math.Floor(float64(((yPos) - 220) / sensitivity)))
 		}
 
 	}
