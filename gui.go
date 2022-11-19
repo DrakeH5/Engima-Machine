@@ -6,6 +6,7 @@ import (
 	_ "image/png"
 	"log"
 	"math"
+	"strconv"
 	"strings"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -103,6 +104,8 @@ var rotorNbms = [5]string{"1", "2", "3", "4", "5"}
 var selectedRotor string
 var err error
 
+var rotorsRotationAmounts = [5]int{0, 0, 0, 0, 0}
+
 var plugBoard = map[interface{}]interface{}{
 	"a": "",
 	"b": " ",
@@ -186,6 +189,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			options := &ebiten.DrawImageOptions{}
 			options.GeoM.Translate(float64((i*160)+50), 1)
 			screen.DrawImage(topbgImg, options)
+			text.Draw(screen, strconv.Itoa(rotorsRotationAmounts[i]), mplusNormalFont, (i*160)+130, 230, color.White)
 		}
 		option := &ebiten.DrawImageOptions{}
 		option.GeoM.Scale(1, 0.5)
