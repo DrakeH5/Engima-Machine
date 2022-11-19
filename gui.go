@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -86,6 +87,7 @@ func (g *Game) Update() error {
 }
 
 var keyReleased bool
+var keyPressed string
 
 var plugBoardLetters []string
 
@@ -139,10 +141,11 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		for i := 0; i < 26; i++ {
 			for _, j := range g.keys {
 				if keyReleased == true {
-					//SEND LETTER TO ENIGMA
+					keyPressed = encrypt(strings.ToLower(ebiten.Key.String(j)))
+					fmt.Println(keyPressed)
 					keyReleased = false
 				}
-				encryptedKey := encrypt(strings.ToLower(ebiten.Key.String(j)))
+				encryptedKey := keyPressed
 				if encryptedKey == keys[i] {
 					//vector.DrawFilledCircle(screen, 400, 400, 100, color.RGBA{0x80, 0x00, 0x80, 0x80})
 					text.Draw(screen, keys[i], mplusBigFont, i*25, 310, color.RGBA{255, 255, 0, 0xff})
