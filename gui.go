@@ -237,6 +237,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 						rotorOptions[rotorInMotion] = &ebiten.DrawImageOptions{}
 						rotorOptions[rotorInMotion].GeoM.Scale(-0.50, 0.50)
 						rotorOptions[rotorInMotion].GeoM.Translate(float64(mouseX), float64(mouseY))
+						oldRotorRotationShortTermStore := rotorsRotationAmounts[clickedSlot]
+						rotorsRotationAmounts[clickedSlot] = rotorsRotationAmounts[rotorInMotion]
+						rotorsRotationAmounts[rotorInMotion] = oldRotorRotationShortTermStore
 					}
 				}
 			} else {
