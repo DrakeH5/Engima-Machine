@@ -303,6 +303,9 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			xPos++
 			sensitivity := 30
 			rotorsRotationAmounts[movingRotorStartingPosSelected] += int(math.Floor(float64(((yPos)-220)/sensitivity))) - movingRotorStartRotationInitialValue
+			if rotorsRotationAmounts[movingRotorStartingPosSelected] < 0 {
+				rotorsRotationAmounts[movingRotorStartingPosSelected] = 26 + rotorsRotationAmounts[movingRotorStartingPosSelected]
+			}
 			movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
 		}
 
