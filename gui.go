@@ -136,6 +136,11 @@ var plugBoard = map[interface{}]interface{}{
 	"z": " ",
 }
 
+var rightMouseClicked bool
+
+var movingRotorStartingPosSelected int
+var movingRotorStartRotationInitialValue int
+
 func (g *Game) Draw(screen *ebiten.Image) {
 	{
 		for i := 0; i < 26; i++ {
@@ -269,6 +274,36 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			} else {
 				text.Draw(screen, rotorNbms[i], mplusNormalFont, 550, (int(math.Floor(float64(i/4)))*100)+70, color.RGBA{100, 100, 10, 0xff})
 			}
+		}
+
+		if inpututil.IsMouseButtonJustPressed(ebiten.MouseButton(ebiten.MouseButtonRight)) == true {
+			xPos, yPos := ebiten.CursorPosition()
+			if yPos > 205 && yPos < 235 {
+				if xPos > 110 && xPos < 150 {
+					rightMouseClicked = true
+					movingRotorStartingPosSelected = 0
+					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+				} else if xPos > 270 && xPos < 310 {
+					rightMouseClicked = true
+					movingRotorStartingPosSelected = 1
+					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+				} else if xPos > 430 && xPos < 470 {
+					rightMouseClicked = true
+					movingRotorStartingPosSelected = 2
+					movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
+				}
+			}
+		}
+		if inpututil.IsMouseButtonJustReleased(ebiten.MouseButton(ebiten.MouseButtonRight)) == true {
+			rightMouseClicked = false
+		}
+
+		if rightMouseClicked == true {
+			xPos, yPos := ebiten.CursorPosition()
+			xPos++
+			sensitivity := 30
+			rotorsRotationAmounts[movingRotorStartingPosSelected] += int(math.Floor(float64(((yPos)-220)/sensitivity))) - movingRotorStartRotationInitialValue
+			movingRotorStartRotationInitialValue = rotorsRotationAmounts[movingRotorStartingPosSelected]
 		}
 
 	}
