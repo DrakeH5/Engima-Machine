@@ -331,6 +331,7 @@ func encrypt(key string) string {
 	var output string
 	output = plugBoardFunc(key)
 	output = sendThroughRotors(output)
+	output = plugBoardFunc(output)
 	return output
 }
 
