@@ -330,6 +330,7 @@ func main() {
 func encrypt(key string) string {
 	var output string
 	output = plugBoardFunc(key)
+	output = sendThroughRotors(output)
 	return output
 }
 
@@ -338,6 +339,29 @@ func plugBoardFunc(inputedLetter string) string {
 	var output string = inputedLetter
 	if scrambles[inputedLetter] != " " {
 		output = scrambles[inputedLetter].(string)
+	}
+	return output
+}
+
+func sendThroughRotors(input string) string {
+	var output string = input
+	for i := 0; i < 3; i++ {
+		rotorOnNbm, err := strconv.Atoi((rotorNbms[i]))
+		if err == nil {
+			output = rotorsgui[rotorOnNbm-1][output].(string)
+		}
+		//rotateRotors()
+		if i == 2 {
+			output = reflectorgui[output].(string)
+			//rotateRotors()
+			for i := 2; i > -1; i-- {
+				rotorOnNbm, err := strconv.Atoi((rotorNbms[i]))
+				if err == nil {
+					output = rotorsgui[rotorOnNbm-1][output].(string)
+				}
+				//rotateRotors()
+			}
+		}
 	}
 	return output
 }
@@ -485,33 +509,31 @@ var rotorsgui = [5]map[interface{}]interface{}{
 	},
 }
 
-var reflectorgui = [1]map[interface{}]interface{}{
-	map[interface{}]interface{}{
-		"a": "e",
-		"b": "j",
-		"c": "m",
-		"d": "z",
-		"e": "a",
-		"f": "l",
-		"g": "y",
-		"h": "x",
-		"i": "v",
-		"j": "b",
-		"k": "w",
-		"l": "f",
-		"m": "c",
-		"n": "r",
-		"o": "q",
-		"p": "u",
-		"q": "o",
-		"r": "n",
-		"s": "t",
-		"t": "s",
-		"u": "p",
-		"v": "i",
-		"w": "k",
-		"x": "h",
-		"y": "g",
-		"z": "d",
-	},
+var reflectorgui = map[interface{}]interface{}{
+	"a": "e",
+	"b": "j",
+	"c": "m",
+	"d": "z",
+	"e": "a",
+	"f": "l",
+	"g": "y",
+	"h": "x",
+	"i": "v",
+	"j": "b",
+	"k": "w",
+	"l": "f",
+	"m": "c",
+	"n": "r",
+	"o": "q",
+	"p": "u",
+	"q": "o",
+	"r": "n",
+	"s": "t",
+	"t": "s",
+	"u": "p",
+	"v": "i",
+	"w": "k",
+	"x": "h",
+	"y": "g",
+	"z": "d",
 }
