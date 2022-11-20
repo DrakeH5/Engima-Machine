@@ -108,7 +108,7 @@ var err error
 var rotorsRotationAmounts = [5]int{0, 0, 0, 0, 0}
 
 var plugBoard = map[interface{}]interface{}{
-	"a": "",
+	"a": " ",
 	"b": " ",
 	"c": " ",
 	"d": " ",
