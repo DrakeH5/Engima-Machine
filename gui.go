@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"image/color"
 	_ "image/png"
 	"log"
@@ -147,7 +146,7 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			for _, j := range g.keys {
 				if keyReleased == true {
 					keyPressed = encrypt(strings.ToLower(ebiten.Key.String(j)))
-					fmt.Println(keyPressed)
+					//fmt.Println(keyPressed)
 					keyReleased = false
 				}
 				encryptedKey := keyPressed
@@ -346,23 +345,27 @@ func plugBoardFunc(inputedLetter string) string {
 
 func sendThroughRotors(input string) string {
 	var output string = input
+	var letterOut string
+	for i := 2; i > -1; i-- {
+		rotorOnNbm, err := strconv.Atoi((rotorNbms[i]))
+		if err == nil {
+			for j := 0; j < 26; j++ {
+				if rotorsgui[rotorOnNbm-1][keys[j]] == output {
+					letterOut = keys[j]
+				}
+			}
+			output = letterOut
+		}
+		//rotateRotors()
+	}
+	output = reflectorgui[output].(string)
+	//rotateRotors()
 	for i := 0; i < 3; i++ {
 		rotorOnNbm, err := strconv.Atoi((rotorNbms[i]))
 		if err == nil {
 			output = rotorsgui[rotorOnNbm-1][output].(string)
 		}
 		//rotateRotors()
-		if i == 2 {
-			output = reflectorgui[output].(string)
-			//rotateRotors()
-			for i := 2; i > -1; i-- {
-				rotorOnNbm, err := strconv.Atoi((rotorNbms[i]))
-				if err == nil {
-					output = rotorsgui[rotorOnNbm-1][output].(string)
-				}
-				//rotateRotors()
-			}
-		}
 	}
 	return output
 }
