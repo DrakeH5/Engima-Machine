@@ -307,6 +307,21 @@ func (g *Game) Draw(screen *ebiten.Image) {
 			rotorsRotationAmounts[movingRotorStartingPosSelected] += int(math.Floor(float64(((yPos)-220)/sensitivity))) - movingRotorStartRotationInitialValue
 			if rotorsRotationAmounts[movingRotorStartingPosSelected] < 0 {
 				rotorsRotationAmounts[movingRotorStartingPosSelected] = 26 + rotorsRotationAmounts[movingRotorStartingPosSelected]
+			} else if rotorsRotationAmounts[movingRotorStartingPosSelected] > 25 {
+				rotorsRotationAmounts[movingRotorStartingPosSelected] = 0
+			}
+			var nmbofRotationsNeeded int
+			if int(math.Floor(float64(((yPos)-220)/sensitivity)))-movingRotorStartRotationInitialValue > 0 {
+				nmbofRotationsNeeded = int(math.Floor(float64(((yPos)-220)/sensitivity))) - movingRotorStartRotationInitialValue
+			} else {
+				nmbofRotationsNeeded = 26 + int(math.Floor(float64(((yPos)-220)/sensitivity))) - movingRotorStartRotationInitialValue
+			}
+			for i := 0; i < nmbofRotationsNeeded; i++ {
+				last := rotorsgui[movingRotorStartingPosSelected]["z"]
+				for i := 25; i > 0; i-- {
+					rotorsgui[movingRotorStartingPosSelected][keys[i]] = rotorsgui[movingRotorStartingPosSelected][keys[i-1]]
+				}
+				rotorsgui[movingRotorStartingPosSelected]["a"] = last
 			}
 			movingRotorStartRotationInitialValue = int(math.Floor(float64(((yPos) - 220) / sensitivity)))
 		}
@@ -331,6 +346,7 @@ func encrypt(key string) string {
 	output = plugBoardFunc(key)
 	output = sendThroughRotors(output)
 	output = plugBoardFunc(output)
+	rotateGuiRotors()
 	return output
 }
 
@@ -368,6 +384,48 @@ func sendThroughRotors(input string) string {
 		//rotateRotors()
 	}
 	return output
+}
+
+func rotateGuiRotors() {
+	rotorOnNbm, err := strconv.Atoi(rotorNbms[2])
+	rotorOnNbm--
+	if err == nil {
+		last := rotorsgui[rotorOnNbm]["z"]
+		for i := 25; i > 0; i-- {
+			rotorsgui[rotorOnNbm][keys[i]] = rotorsgui[rotorOnNbm][keys[i-1]]
+		}
+		rotorsgui[rotorOnNbm]["a"] = last
+		rotorsRotationAmounts[2]++
+		if rotorsRotationAmounts[2] > 25 {
+			rotorsRotationAmounts[2] = 0
+			rotorOnNbm, err := strconv.Atoi(rotorNbms[1])
+			rotorOnNbm--
+			if err == nil {
+				last := rotorsgui[rotorOnNbm]["z"]
+				for i := 25; i > 0; i-- {
+					rotorsgui[rotorOnNbm][keys[i]] = rotorsgui[rotorOnNbm][keys[i-1]]
+				}
+				rotorsgui[rotorOnNbm]["a"] = last
+				rotorsRotationAmounts[1]++
+			}
+			if rotorsRotationAmounts[1] > 25 {
+				rotorsRotationAmounts[1] = 0
+				rotorOnNbm, err := strconv.Atoi(rotorNbms[0])
+				rotorOnNbm--
+				if err == nil {
+					last := rotorsgui[rotorOnNbm]["z"]
+					for i := 25; i > 0; i-- {
+						rotorsgui[rotorOnNbm][keys[i]] = rotorsgui[rotorOnNbm][keys[i-1]]
+					}
+					rotorsgui[rotorOnNbm]["a"] = last
+					rotorsRotationAmounts[0]++
+					if rotorsRotationAmounts[0] > 25 {
+						rotorsRotationAmounts[0] = 0
+					}
+				}
+			}
+		}
+	}
 }
 
 var rotorsgui = [5]map[interface{}]interface{}{
